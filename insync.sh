@@ -14,4 +14,10 @@ diff -sb ./dot.bash-func.sh ~/.bash-func.sh
 echo ${RESET}
 ls -la ./dot.bash-func.sh ~/.bash-func.sh
 
+# my vimrc
+echo; echo ${GREEN}  ~/.vimrc ${YELLOW}
+diff -sb ./dot.vimrc ~/.vimrc
+echo ${RESET}
+ls -la ./dot.vimrc ~/.vimrc
+
 #
