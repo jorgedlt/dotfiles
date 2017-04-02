@@ -225,6 +225,22 @@ spaceout () {
 
 ####
 
+#! coldwar ~ pipe ready text to 5-letter group
+#h coldwar ~ echo foo bar | lineup
+coldwar () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | sed 's/.\{5\}/& /g'
+}
+
+#! letonly ~ pipe ready text to 5-letter group
+#h letonly ~ echo foo bar | lineup
+letonly () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr -d '0-9' | tr -d '[:punct:]'
+}
+
+#### echo "foobarbazblargblurg" | sed 's/.\{4\}/& /g'
+
 #! md ~ Open MacDown - shortcut
 #h md ~ Open MacDown - shortcut
 md ()
