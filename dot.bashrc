@@ -103,7 +103,7 @@ fi
 #
  alias ll='ls -lrt'
 
- alias lc='ls -C'
+ alias lw='ls -C'
  alias l.='ls -lart | ccze -A'
  alias cls='clear'
 

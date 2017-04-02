@@ -149,6 +149,17 @@ funclist ()
     fi
 }
 
+###
+
+#! gaps ~ finds missing gaps in sequence
+#h gaps ~ echo 2 3 4 5 6 8 9 | lineup | gaps
+gaps ()
+{
+  awk 'NR != $1 { for (i = prev + 1; i < $1; i++) { print i } } { prev = $1 }'
+}
+
+###
+
 #! githelp ~ list out typecal git help notes, useful to commit and push
 #h githelp ~ githelp - requires no parameters
 githelp ()
@@ -169,12 +180,50 @@ glist ()
     history | grep $1
 }
 
+#! topbot ~ list head and tail of file
+#h topbot ~ topbot file
+topbot() {
+    head $1 && echo === && tail $1
+}
+
 #! list ~ list CMD history
 #h list ~ list CMD history, requires no paramters
 list ()
 {
     history
 }
+
+#! lc ~ pipe ready lowercase function
+#h lc ~ echo FOO | lc
+lc () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr '[:upper:]' '[:lower:]'
+}
+
+#! uc ~ pipe ready uppercase function
+#h uc ~ echo foo | uc
+uc () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr '[:lower:]' '[:upper:]'
+}
+
+#### http://www.catonmat.net/blog/awk-one-liners-explained-part-one/
+
+#! lineup ~ pipe ready text to list function
+#h lineup ~ echo foo bar | lineup
+lineup () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr ' ' '\012'
+}
+
+#! spaceout ~ pipe list to text function
+#h spaceout ~ cat foo | spaceout
+spaceout () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr '\012' ' '
+}
+
+####
 
 #! md ~ Open MacDown - shortcut
 #h md ~ Open MacDown - shortcut
@@ -238,7 +287,7 @@ showcolors ()
     echo
 }
 
-#! showif ~ Show PUBLIC IP address
+#! showif ~ Show active network interface(s)
 #h showif ~ showif           # requires no parameters
 showif ()
 {
@@ -261,9 +310,9 @@ shownet ()
     _showENV 'Backup' "echo $backupIF"
 }
 
-#! showpublicip ~ Show PUBLIC IP address
-#h showpublicip ~ showpublicip           # requires no parameters
-showpublicip ()
+#! showpublic ~ Show PUBLIC IP address
+#h showpublic ~ showpublicip           # requires no parameters
+showpublic ()
 {
     _showENV PUBLIC 'dig +short myip.opendns.com @resolver1.opendns.com'
 }
@@ -364,7 +413,7 @@ whereip ()
 #    printf "\e]2;$1\a"
 # }
 
-#! words ~ show json of query return
+#! words ~ show json of query return for similar words
 #h words ~ In order to find words ...                                   ...use string to query
 #h words ~ words with a meaning similar to ringing in the ears                ml=ringing+in+the+ears
 #h words ~ words related to duck that start with the letter b                 ml=duck&sp=b*
