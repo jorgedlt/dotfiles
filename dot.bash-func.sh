@@ -236,7 +236,22 @@ coldwar () {
 #h letonly ~ echo foo bar | lineup
 letonly () {
   declare i=${@:-$(</dev/stdin)}
-  echo "$i" | tr -d '0-9' | tr -d '[:punct:]'
+  echo "$i" | tr -d '0-9' | tr -d '[:punct:]' \
+  | tr -d ' ' | tr -d '\012' | fold -s -w 50
+}
+
+#! fold64 ~ pipe ready text fold at 64 char
+#h fold64 ~ echo foo bar | lineup
+fold64 () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | fold -s -w 64
+}
+
+#! squeeze ~ pipe ready text removes multi spaces
+#h squeeze ~ echo foo bar | lineup
+squeeze () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | tr -s ' '
 }
 
 #### echo "foobarbazblargblurg" | sed 's/.\{4\}/& /g'
@@ -264,6 +279,14 @@ mkpass ()
 
 # shopt -s expand_aliases
 # source ~/.bash_aliases
+
+#! byone ~ text file to single column
+#h byone ~ cat file | byone - removes single spaces
+byone ()
+{
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | sed 's/.\{1\}/& /g' | tr ' ' '\012' | tr -d ' ' | grep -v '^$'
+}
 
 #! numbers ~ Random Quads of number patterns
 #h numbers ~ no parameters needed, generates 10x random 4-digit
