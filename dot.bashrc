@@ -84,9 +84,9 @@ LS_COLORS='di=35:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=34'
  	export GREP_OPTIONS='--color=auto'
 
   # brew tap homebrew/dupes; brew install grep
-  alias  grep='ggrep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
+  alias  grep='ggrep --color=always'
+  alias fgrep='fgrep --color=always'
+  alias egrep='egrep --color=always'
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -101,9 +101,9 @@ if ! shopt -oq posix; then
 fi
 
 #
- alias ll='ls -lrt'
+ alias ll='ls -l | ccze -A'
 
- alias lw='ls -C'
+ alias lw='ls -C | ccze -A'
  alias l.='ls -lart | ccze -A'
  alias cls='clear'
 
@@ -132,6 +132,12 @@ fi
 #
  alias srm='/usr/local/Cellar/srm/1.2.15/bin/srm -D'
 # requires brew install srm
+
+# HighLighter Credentials - https://docs.google.com/document/d/1kZTfThvtU9ByQx7mvlHLKp_IN3QyMotcXFVHCvDCcIk/edit
+ source "$HOME/mybin/h.sh"
+
+export H_COLORS_FG="bold black on_rgb520","bold red on_rgb025"
+export H_COLORS_BG="underline bold rgb520","underline bold rgb025"
 
 # AWS Credentials
  source "$HOME/.bash-func.sh"

@@ -26,10 +26,18 @@ alpha ()
     echo {A..Z}{A..Z}{A..Z}{A..Z} | tr ' ' '\012' | gshuf | gshuf | head | ccze -A
 }
 
+#! rstrg ~ Randown 12 char string
+#h rstrg ~ no parameters needed, generates 1x randown 12-char string
+rstrg ()
+{
+    date | shasum -a 512 | base64 | tr 'a-z' 'A-Z' | cut -c1-12
+}
+
 atom ()
 {
     open -a /Applications/Atom.app "$@"
 }
+# ln -s /Applications/Atom.app/Contents/Resources/app/atom.sh /usr/local/bin/atom
 
 #! busca ~ Searches my Notes in Document folder, provides titles
 #h busca ~ busca REGEX
@@ -108,6 +116,22 @@ fcat ()
     highlight -O truecolor --syntax=bash -l "$1"
 }
 
+#! jflat ~ pipe ready maps json file to flat layout
+#h jflat ~ cat file.json | jflat # uses jq -> | jq -r 'path(..) | map(tostring) | join("/")'
+jflat () {
+  declare i=${@:-$(</dev/stdin)}
+  echo "$i" | jq -r 'path(..) | map(tostring) | join("/")'
+
+# Ran into sime trouble
+# aws cloudfront get-distribution-config --id E2GMI8JQHJ3PX1 --output json --query DistributionConfig | jflat
+# that should have worked !!!
+#
+# which this seem to fix
+# aws cloudfront get-distribution-config --id E2GMI8JQHJ3PX1 --output json --query DistributionConfig
+# onto even this ...
+# aws cloudfront get-distribution-config --id E2GMI8JQHJ3PX1 --output json --query DistributionConfig | jflat | grep OriginSslProtocols$
+}
+
 #! fhelp ~ shows details howto for .bashrc functions
 #h fhelp ~ fhelp  flist_word     requeres one parameters
 fhelp ()
@@ -170,6 +194,8 @@ githelp ()
     echo git status;
     echo git commit -m '"Commit message"';
     echo git push origin master;
+    echo
+    echo See git pull override -https://stackoverflow.com/questions/6284809/how-to-pull-from-remote-git-repository-and-override-the-changes-in-my-local-repo
     echo "${RESET}"
 }
 
